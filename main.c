@@ -1,8 +1,25 @@
+/*****************************************************************************************************************************************
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+*
+* @file: main.c
+* @brief: This is main file contains all the function calls to scan the student data, write/save data into file, print the data on screen,
+*           write the scanned data into appropriate file, read the data from file to print on screen, search the details
+*           of students by provided info like, student name, batch id, marks range, assessment status, date of birth,
+*           date of join the institute.
+*          This main function gives us the menu to select a particular task to be performed, on basis of our requirement.
+*
+* @uthor  : Amar G. Shinde
+* @Created: 13/03/2023.
+*
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+******************************************************************************************************************************************/
+
+/* include the header files */
 #include <stdio.h>
 #include <stdlib.h>
-
 #include"database.h"
 
+/* main function */
 int main()
 {
     int choice = 0;
@@ -11,6 +28,7 @@ int main()
     char std_name[NAME_BUF];
     char Asmnt_Sts[STS_BUF];
     float min_range, max_range;
+
     STD_DETAILS_S * ptr = NULL;
 
     AllocateMemory( &ptr );
@@ -49,17 +67,17 @@ int main()
             case 5: /* search the details by name of student */
                     printf("Enter the name of student: ");
                     scanf(" %[^\n]", std_name);
-                    SearchStdDetailsByName( std_name );
+                    SearchDetailsByNameOrAssessmentSts( ReadFileToFindName, std_name );
             break;
             case 6: /* search the details using the date of birth */
                     printf("Enter the date of birth(dd:mm:yyyy): ");
                     scanf("%d%d%d",&dd,&mm,&yyyy);
-                    SearchStdDetailsByDoB(dd,mm,yyyy);
+                    SearchStdDetailsByDate( ReadFileToFindDOB, dd, mm, yyyy);
             break;
             case 7: /* search the details using the date of joining */
                     printf("Enter the date of joining(dd:mm:yyyy): ");
                     scanf("%d%d%d",&dd,&mm,&yyyy);
-                    SearchStdDetailsByDoJ(dd,mm,yyyy);
+                    SearchStdDetailsByDate( ReadFileToFindDOJ, dd, mm, yyyy );
             break;
             case 8: /* search the students list by range of marks */
                     printf("Enter the min_range of avg_marks: ");
@@ -71,7 +89,7 @@ int main()
             case 9: /* search the student info by assessment status */
                     printf("Enter the assessment status of students want to search: ");
                     scanf(" %[^\n]", Asmnt_Sts );
-                    SearchStdDetailsByAssessmentSts(Asmnt_Sts);
+                    SearchDetailsByNameOrAssessmentSts(PrintAssessmentSts, Asmnt_Sts);
             break;
             case 10: /* search the student details by batch id */
                     printf("Enter the student's Batch Id: ");

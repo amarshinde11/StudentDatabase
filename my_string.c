@@ -1,8 +1,44 @@
-#include"my_string.h"
+/*****************************************************************************************************************************
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+*
+* @file: my_string.c
+* @brief: This is library file contains all the functions to manipulate string operations
+*
+* @uthor  : Amar G. Shinde
+* @Created: 13/03/2023.
+*
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+******************************************************************************************************************************/
+#include<stdio.h>
 #include"database.h"
 
 #define DEBUG(x) printf("DEBUG: opened file %s\n", #x);
 
+/************************************************************************************************
+/////////////////////////////////////////////////////////////////////////////////////////////////
+*
+*   unsigned long int my_strlen( const char * str ): This is function to find out the length
+*   of given string.
+*
+/////////////////////////////////////////////////////////////////////////////////////////////////
+************************************************************************************************/
+unsigned long int my_strlen( const char * str )
+{
+    unsigned long int len = 0;
+    while( str[len] != '\0' )
+        len++;
+    return len;
+}
+
+/************************************************************************************************
+/////////////////////////////////////////////////////////////////////////////////////////////////
+*
+* char * my_strstr(const char * mainstr, const char * substr ): This is function to find
+*   whether the substring if present in main string, if available the return the address
+*   where the substring is present in main string. If not found the return NULL
+*
+/////////////////////////////////////////////////////////////////////////////////////////////////
+************************************************************************************************/
 char * my_strstr(const char * mainstr, const char * substr )
 {
     const char *p, *q;
@@ -18,71 +54,21 @@ char * my_strstr(const char * mainstr, const char * substr )
             }
             if( *q == '\0' )
             {
-                //DEBUG(STRSTR...SUCCESS)
                 return mainstr;
             }
         }
         mainstr++;
     }
-    //DEBUG(STRSTR...FAILED)
     return NULL;
 }
 
-float my_atof( const char * mark_str )
-{
-    int dig = 0;
-    float num1 = 0, num2 = 0;
-    while( mark_str[dig] != '.' ) {
-        if( (mark_str[dig] != '.') && ((mark_str[dig] >= '0') && (mark_str[dig] <= '9')) )
-            num1 = (num1 * 10) + (mark_str[dig] - 48);
-            dig++;
-    }
-    dig++;
-    while( dig < 8 ) {
-        if( ((mark_str[dig] >= '0') && (mark_str[dig] <= '9')) )
-            num2 = (num2 * 10) + (mark_str[dig] - 48);
-        dig++;
-    }
-    return (num1 + (num2/100));
-}
 
-void EditFileDataWithCorrectInfo( void )
-{
-    int fields = 0;
-    printf("Enter which field you want to edit\n");
-    printf("1. Edit Student's Batch Id\n");
-    printf("2. Edit the name of student\n");
-    printf("3. Edit the avg marks\n");
-    printf("4. Edit the assessment status\n");
-    printf("5. Edit the date of birth\n");
-    printf("6. Edit the date of joining\n");
-    scanf(" %d", &fields);
-    switch( fields )
-    {
-        case 1: /* edit the batch id of student */
-                EditBatchId();
-        break;
-        case 2: /* edit the name of student */
-                EditName();
-        break;
-        case 3: /* Edit the avg marks */
-                EditAvgMarks();
-        break;
-        case 4: /* edit the assessment status */
-                EditAssessmetSts();
-        break;
-        case 5: /* edit the date of birth */
-                //EditDateOfBirth( ptr );
-        break;
-        case 6: /* edit the date of joining */
-                //EditDateJoining( ptr );
-        break;
-        default: /* edit the name of student */
-                printf("Enter the Student's batch id or name or DOB & DOB OR ALL edit into file: ");
-                //GetStdDetailInfo(ptr);
-        break;
-    }
-}
+
+
+
+
+
+
 
 void EditAssessmetSts( void )
 {
@@ -149,16 +135,11 @@ int SearchBatchIdNameToEditAsmntSts( FILE * fp, STD_DETAILS_S * info )
                 }/* student's name matched */
             }/* student id matched */
     }
+    free(buf);
     return FAIL;
 }
 
-unsigned long int my_strlen( const char * str )
-{
-    unsigned long int len = 0;
-    while( str[len] != '\0' )
-        len++;
-    return len;
-}
+
 
 int ReplaceWord( char * dest, const char * str1, const char * str2 )
 {
@@ -287,27 +268,7 @@ int SearchBatchIdNameToEditMarks( FILE * fp, STD_DETAILS_S * info )
     return FAIL;
 }
 
-void GetMarks( STD_DETAILS_S * info )
-{
-    float cwt1, cwt2, cmt, awt, amt, cppwt, cppmt;
-    float TotalMarks = 600;
-    printf("Enter the marks of CWT1: ");
-    scanf("%f", &cwt1);
-    printf("Enter the marks of CWT2: ");
-    scanf("%f", &cwt2);
-    printf("Enter the marks of CMT: ");
-    scanf("%f", &cmt);
-    printf("Enter the marks of AWT: ");
-    scanf("%f", &awt);
-    printf("Enter the marks of AMT: ");
-    scanf("%f", &amt);
-    printf("Enter the marks of CppWT: ");
-    scanf("%f", &cppwt);
-    printf("Enter the marks of CppMT: ");
-    scanf("%f", &cppmt);
 
-    info->aca_info.avg_marks = ((cwt1 + cwt2 + cmt + awt + amt + cppwt + cppmt)/TotalMarks)*100;
-}
 
 void EditName( void )
 {
@@ -479,19 +440,3 @@ int SearchNameDoBToEditBatchId( FILE * fp, STD_DETAILS_S * info )
     return FAIL;
 }
 
-FILE * OpenFile( BatchId_e file )
-{
-  switch(file)
-  {
-    case Batch_Invalid: return NULL;
-    case Batch_1: return fopen("v22be1.txt", "r+");
-    case Batch_2: return fopen("v22be2.txt", "r+");
-    case Batch_3: return fopen("v22be3.txt", "r+");
-    case Batch_4: return fopen("v22be4.txt", "r+");
-    case Batch_5: return fopen("v22be5.txt", "r+");
-    case Batch_6: return fopen("v22be6.txt", "r+");
-    case Batch_7: return fopen("v22be7.txt", "r+");
-    case Batch_8: return fopen("v22be8.txt", "r+");
-    case Batch_9: return fopen("v22be9.txt", "r+");
-  }
-}

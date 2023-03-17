@@ -126,6 +126,10 @@ void GetStdDetailInfo( STD_DETAILS_S * info )
     scanf(" %s", info->aca_info.batch_id);
     printf("Enter the name of student: ");
     scanf(" %[^\n]", info->aca_info.std_name);
+
+    GetMarks(info);
+
+#if 0 //This is redundent
     printf("Enter the marks of CWT1: ");
     scanf("%f", &cwt1);
     printf("Enter the marks of CWT2: ");
@@ -142,10 +146,11 @@ void GetStdDetailInfo( STD_DETAILS_S * info )
     scanf("%f", &cppmt);
 
     info->aca_info.avg_marks = ((cwt1 + cwt2 + cmt + awt + amt + cppwt + cppmt)/TotalMarks)*100;
+#endif
     printf("Enter the assessment status: ");
     scanf(" %s", info->aca_info.assmt_status);
-
     GetPersonalDetails(info);
+
 }
 /****************************************************************
 * GetPersonalDetails(): Scan the personal information
@@ -153,14 +158,24 @@ void GetStdDetailInfo( STD_DETAILS_S * info )
 *****************************************************************/
 void GetPersonalDetails( STD_DETAILS_S * info )
 {
+    GetDOB(info);
+    GetDOJ(info);
+}
+
+void GetDOJ( STD_DETAILS_S * info )
+{
+    int dd,mm,yyyy;
+    printf("Enter the date of joining: ");
+    scanf("%d%d%d", &dd, &mm, &yyyy);
+    info->d_join.dd = dd, info->d_join.mm = mm, info->d_join.yyyy = yyyy;
+}
+
+void GetDOB( STD_DETAILS_S * info )
+{
     int dd,mm,yyyy;
     printf("Enter the date of birth: ");
     scanf("%d%d%d", &dd, &mm, &yyyy);
     info->d_birth.dd = dd, info->d_birth.mm = mm, info->d_birth.yyyy = yyyy;
-    printf("Enter the date of joining: ");
-    scanf("%d%d%d", &dd, &mm, &yyyy);
-    info->d_join.dd = dd, info->d_join.mm = mm, info->d_join.yyyy = yyyy;
-
 }
 
 /******************************************************************
