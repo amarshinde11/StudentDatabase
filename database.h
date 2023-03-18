@@ -15,6 +15,7 @@
 #define __DATABASE_H
 
 #include<stdio.h>
+#include<stdlib.h>
 
 /* macro definition */
 #define ID_BUF              10  /* max size of batch id */
@@ -27,7 +28,10 @@
 #define FALSE               0   /* used to compare the result of operation */
 #define FILE_NOT_OPENED     0   /* flag used for indication of  unsuccessful opening of file */
 
-#define DEBUG               0   /* these flags are used for debug and conditional compilation */
+#ifndef DEBUG
+    #define DEBUG               0   /* these flags are used for debug and conditional compilation */
+#endif // DEBUG
+
 #define EXPERIMENT          0   /* these flags are used for debug and conditional compilation */
 
 
@@ -87,9 +91,12 @@ struct student_details
 };
 
 void AllocateMemory( STD_DETAILS_S ** p );
+void InitializeFiles( void );
 void GetStdDetailInfo( STD_DETAILS_S * info );
 void PrintStdDetailInfo( STD_DETAILS_S * info );
 void GetPersonalDetails( STD_DETAILS_S * info );
+void GetDOJ( STD_DETAILS_S * info );
+void GetDOB( STD_DETAILS_S * info );
 void GetMarks( STD_DETAILS_S * info );
 void WriteStdDetailInfo( STD_DETAILS_S * info );
 void WriteIntoFile( FILE * fp, STD_DETAILS_S * info );
@@ -122,33 +129,16 @@ char * MatchBatchId( const char * buf_id, const char * std_batchid );
 /* these are function prototypes for editing data from file */
 void EditFileDataWithCorrectInfo( void );
 FILE * OpenFile( BatchId_e file );
-
-int SearchNameDoBToEditBatchId( FILE * fp, STD_DETAILS_S * info );
-void EditBatchId( void );
-
-int SearchBatchIdDoBToEditName( FILE * fp, STD_DETAILS_S * info );
-void EditName( void );
-
-int SearchBatchIdNameToEditMarks(FILE * fp, STD_DETAILS_S * info);
-void EditAvgMarks( void );
-
-int SearchBatchIdNameToEditAsmntSts(FILE * fp, STD_DETAILS_S * info);
-void EditAssessmetSts( void );
-
-
-int SearchBatchIdNameToEditDate( FILE * fp, STD_DETAILS_S * info, EditField field);
+void EditStudentsData( int(*FunPointer)( FILE *, STD_DETAILS_S * ), EditField field );
+int SearchBatchIdNameToEditDate( FILE * fp, STD_DETAILS_S * info, EditField field );
+void EditDates( int (*FunPtr)( FILE *, STD_DETAILS_S *, EditField ), EditField field  );
 void EditDOJ( char * buf, STD_DETAILS_S * info );
 void EditDOB( char * buf, STD_DETAILS_S * info );
+int EditAsessmentSts(    FILE * fp, STD_DETAILS_S * info );
+int EditStudentsMarks(   FILE * fp, STD_DETAILS_S * info );
+int EditStudentsName(    FILE * fp, STD_DETAILS_S * info );
+int EditStudentsBatchId( FILE * fp, STD_DETAILS_S * info );
 
-/*
-//int SearchBatchIdNameToEditDoB( FILE * fp, STD_DETAILS_S * info );
-//int ReadFileToFindAssessmentSts(const char * filename, const char * Asmnt_Sts);
-//void SearchStdDetailsByAssessmentSts( const char * Asmnt_Sts );
-//void SearchStdDetailsByDoB(int dd, int mm, int yyyy);
-//void SearchStdDetailsByDoJ(int dd, int mm, int yyyy);
-//void SearchStdDetailsByName(const char * name );
-//BatchId_e FileOpenedToRead( const char * batchid );
-*/
 
 
 #endif // DATABASE_H
