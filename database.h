@@ -28,10 +28,6 @@
 #define FALSE               0   /* used to compare the result of operation */
 #define FILE_NOT_OPENED     0   /* flag used for indication of  unsuccessful opening of file */
 
-#ifndef DEBUG
-    #define DEBUG               0   /* these flags are used for debug and conditional compilation */
-#endif // DEBUG
-
 #define EXPERIMENT          0   /* these flags are used for debug and conditional compilation */
 
 

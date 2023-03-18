@@ -586,7 +586,7 @@ int ReadFileToFindName( const char * filename, const char * std_name )
     buf = malloc(100*sizeof(char));
     if( buf == NULL ) {
         printf("Memory not allocated to buffer.\n");
-        return NULL;
+        return FAIL;
     }
     while( fscanf(fp, " %[^\n]", buf) != EOF )
     {
@@ -1194,7 +1194,7 @@ int EditAsessmentSts( FILE * fp, STD_DETAILS_S * info )
     int done = 0;
     if ( (buf = malloc(150*sizeof(char)))== NULL ) {
         printf("Memory not allocated for buffer.\n");
-        return 0;
+        return FAIL;
     }
     fscanf(fp, " %[^\n]", buf);
     while( fscanf(fp, " %[^\n]", buf) != EOF )
@@ -1475,7 +1475,7 @@ int SearchBatchIdNameToEditDate( FILE * fp, STD_DETAILS_S * info, EditField fiel
     int done = 0;
     if ( (buf = malloc(150*sizeof(char)))== NULL ) {
         printf("Memory not allocated for buffer.\n");
-        return 0;
+        return FAIL;
     }
 
     fscanf(fp, " %[^\n]", buf);
